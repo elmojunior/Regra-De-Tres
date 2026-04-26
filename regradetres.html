@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regra de Três Simples</title>
+    <meta name="theme-color" id="theme-color-meta" content="#e0eafc">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNjZmZiIvPjxwYXRoIGQ9Ik03IDhoMTBNNyAxNmgxME0xMiAxMmguMDEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNjZmZiIvPjxwYXRoIGQ9Ik03IDhoMTBNNyAxNmgxME0xMiAxMmguMDEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJlZ3JhIGRlIFRyw6pzIFNpbXBsZXMiLAogICJzaG9ydF9uYW1lIjogIlJlZ3JhIDMiLAogICJzdGFydF91cmwiOiAiLi9yZWdyYWRldHJlcy5odG1sIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZTBlYWZjIiwKICAidGhlbWVfY29sb3IiOiAiIzAwNjZmZiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0F5TkNBeU5DSStQSEpsWTNRZ2QybGtkR2c5SWpJMElpQm9aV2xuYUhROUlqSTBJaUJ5ZUQwaU5DSWdabWxzYkQwaUl6QXdOalptWmlJdlBqeHdZWFJvSUdROUlrMDNJRGhvTVRCTk55QXhObWd4TUUweE1pQXhNbWd1TURFaUlITjBjbTlyWlQwaWQyaHBkR1VpSUhOMGNtOXJaUzEzYVdSMGFEMGlNeUlnYzNSeWIydGxMV3hwYm1WallYQTlJbkp2ZFc1a0lpOCtQQzl6ZG1jKyIsCiAgICAgICJzaXplcyI6ICJhbnkiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBeU5DQXlOQ0krUEhKbFkzUWdkMmxrZEdnOUlqSTBJaUJvWldsbmFIUTlJakkwSWlCeWVEMGlOQ0lnWm1sc2JEMGlJekF3TmpabVppSXZQanh3WVhSb0lHUTlJazAzSURob01UQk5OeUF4Tm1neE1FMHhNaUF4TW1ndU1ERWlJSE4wY205clpUMGlkMmhwZEdVaUlITjBjbTlyWlMxM2FXUjBhRDBpTXlJZ2MzUnliMnRsTFd4cGJtVmpZWEE5SW5KdmRXNWtJaTgrUEM5emRtYysiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiA1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0KICBdCn0=">
     <style>
         :root {
             /* Tema Claro Padrão */
@@ -296,6 +300,23 @@
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            // Define a cor da barra de título (theme-color) de acordo com o tema inicial
+            const metaTheme = document.getElementById('theme-color-meta');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', currentTheme === 'dark' ? '#0f2027' : '#e0eafc');
+            }
+
+            // Registra o Service Worker para PWA
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js').then(reg => {
+                        console.log('ServiceWorker registrado:', reg.scope);
+                    }).catch(err => {
+                        console.log('Erro no ServiceWorker:', err);
+                    });
+                });
+            }
         })();
     </script>
 </head>
@@ -374,6 +395,12 @@
                 // Se está escuro, mostra o Sol para mudar para Claro
                 // Se está claro, mostra a Lua para mudar para Escuro
                 themeToggleBtn.innerHTML = theme === 'dark' ? iconSun : iconMoon;
+                
+                // Atualiza a cor da barra de título do navegador
+                const metaTheme = document.getElementById('theme-color-meta');
+                if (metaTheme) {
+                    metaTheme.setAttribute('content', theme === 'dark' ? '#0f2027' : '#e0eafc');
+                }
             }
 
             // Define o ícone inicial com base no que foi setado no head
