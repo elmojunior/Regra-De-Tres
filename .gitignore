@@ -1,0 +1,5 @@
+# Antigravity/Gemini agents
+.agents/
+
+# Arquivos de prompt e rascunhos que não precisam ir para o GitHub
+prompt.md

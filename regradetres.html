@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regra de Três Simples</title>
+    <style>
+        :root {
+            /* Tema Claro Padrão */
+            --bg-gradient: linear-gradient(135deg, #e0eafc, #cfdef3);
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --text-main: #2c3e50;
+            --text-muted: #5c6b7a;
+            --accent: #0066ff;
+            --input-bg: rgba(255, 255, 255, 0.7);
+            --input-focus-bg: rgba(255, 255, 255, 1);
+            --input-focus-shadow: rgba(0, 102, 255, 0.2);
+            --result-bg: rgba(0, 102, 255, 0.05);
+            --result-border: rgba(0, 102, 255, 0.3);
+            --result-has-value-bg: rgba(0, 102, 255, 0.1);
+            --result-shadow: rgba(0, 102, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Tema Escuro */
+            --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --accent: #00e5ff;
+            --input-bg: rgba(0, 0, 0, 0.2);
+            --input-focus-bg: rgba(0, 0, 0, 0.3);
+            --input-focus-shadow: rgba(0, 229, 255, 0.15);
+            --result-bg: rgba(0, 229, 255, 0.05);
+            --result-border: rgba(0, 229, 255, 0.3);
+            --result-has-value-bg: rgba(0, 229, 255, 0.15);
+            --result-shadow: rgba(0, 229, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.08);
+        }
+
+        .theme-toggle svg {
+            width: 22px;
+            height: 22px;
+            transition: transform 0.3s ease;
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px var(--shadow-color);
+            animation: fadeIn 0.6s ease-out forwards;
+            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: color 0.4s ease;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-top: 10px;
+            line-height: 1.5;
+            transition: color 0.4s ease;
+        }
+
+        .row {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .row:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .input-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-box label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.4s ease;
+        }
+
+        .input-box input {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            color: var(--text-main);
+            font-size: 18px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .input-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--input-focus-shadow);
+            background: var(--input-focus-bg);
+        }
+
+        .input-box input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .result-box input {
+            background: var(--result-bg);
+            border-color: var(--result-border);
+            color: var(--accent);
+        }
+
+        .result-box input.has-value {
+            background: var(--result-has-value-bg);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--result-shadow);
+            transform: translateY(-2px);
+        }
+
+        .icon-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 18px;
+            color: var(--text-muted);
+            transition: color 0.4s ease;
+        }
+
+        .icon-wrap svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--card-border);
+            padding-top: 20px;
+            transition: border-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* AJUSTES PARA CELULAR */
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px 16px;
+                border-radius: 20px;
+                max-width: 100%;
+            }
+            .row {
+                flex-direction: row;
+                align-items: flex-end;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            .input-box {
+                flex: 1;
+            }
+            .input-box label {
+                font-size: 11px;
+            }
+            .input-box input {
+                padding: 12px 8px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+            .icon-wrap {
+                padding-bottom: 12px;
+                margin: 0;
+            }
+            .icon-wrap svg {
+                width: 16px;
+                height: 16px;
+            }
+            .header {
+                margin-bottom: 24px;
+            }
+            .header h1 {
+                font-size: 20px;
+            }
+            .header p {
+                font-size: 13px;
+                margin-top: 6px;
+            }
+            .theme-toggle {
+                top: 12px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+            }
+            .theme-toggle svg {
+                width: 20px;
+                height: 20px;
+            }
+            .footer {
+                margin-top: 25px;
+            }
+        }
+    </style>
+    <script>
+        // Previne o FOUC (Flash of Unstyled Content) inicializando o tema antes do render
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', currentTheme);
+        })();
+    </script>
+</head>
+<body>
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+        <!-- O SVG será injetado pelo JavaScript de acordo com o tema -->
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <h1>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.4s ease;">
+                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                    <line x1="8" y1="10" x2="16" y2="10"></line>
+                    <line x1="8" y1="14" x2="16" y2="14"></line>
+                </svg>
+                Regra de Três
+            </h1>
+            <p>Preencha os três valores conhecidos para calcular o valor de X instantaneamente.</p>
+        </div>
+
+        <div class="row">
+            <div class="input-box">
+                <label for="a">Se</label>
+                <input type="text" inputmode="decimal" id="a" placeholder="Ex: 10">
+            </div>
+            
+            <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+
+            <div class="input-box">
+                <label for="b">Está para</label>
+                <input type="text" inputmode="decimal" id="b" placeholder="Ex: 50">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-box">
+                <label for="c">Assim como</label>
+                <input type="text" inputmode="decimal" id="c" placeholder="Ex: 20">
+            </div>
+            
+            <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+
+            <div class="input-box result-box">
+                <label for="x">Está para (X)</label>
+                <input type="text" id="x" placeholder="?" readonly>
+            </div>
+        </div>
+
+        <div class="footer">
+            Desenvolvido sem dependências externas.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ================= LÓGICA DO TEMA =================
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const htmlEl = document.documentElement;
+
+            const iconSun = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+            const iconMoon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
+            function updateIcon(theme) {
+                // Se está escuro, mostra o Sol para mudar para Claro
+                // Se está claro, mostra a Lua para mudar para Escuro
+                themeToggleBtn.innerHTML = theme === 'dark' ? iconSun : iconMoon;
+            }
+
+            // Define o ícone inicial com base no que foi setado no head
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            updateIcon(currentTheme);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const newTheme = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                htmlEl.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                // Rotacionar o ícone para um efeito legal
+                themeToggleBtn.style.transform = 'scale(0.8) rotate(180deg)';
+                setTimeout(() => {
+                    updateIcon(newTheme);
+                    themeToggleBtn.style.transform = 'scale(1) rotate(0deg)';
+                }, 150);
+            });
+
+
+            // ================= LÓGICA DA CALCULADORA =================
+            const inputA = document.getElementById('a');
+            const inputB = document.getElementById('b');
+            const inputC = document.getElementById('c');
+            const inputX = document.getElementById('x');
+
+            function applyMask(e) {
+                let val = e.target.value;
+                // Remove tudo que não for número ou vírgula
+                val = val.replace(/[^0-9,]/g, '');
+                
+                // Impede mais de uma vírgula
+                let parts = val.split(',');
+                if (parts.length > 2) {
+                    parts = [parts[0], parts.slice(1).join('')];
+                }
+                
+                // Formata a parte inteira com pontos nos milhares
+                let intPart = parts[0];
+                if (intPart) {
+                    intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                }
+                
+                let formatted = parts.length > 1 ? intPart + ',' + parts[1] : intPart;
+                
+                // Atualiza o valor apenas se for diferente
+                if (e.target.value !== formatted) {
+                    e.target.value = formatted;
+                }
+                
+                calculate();
+            }
+
+            function parseBrazilianNumber(val) {
+                if (!val) return NaN;
+                // Remove pontos e troca vírgula por ponto
+                return parseFloat(val.replace(/\./g, '').replace(',', '.'));
+            }
+
+            function calculate() {
+                const a = parseBrazilianNumber(inputA.value);
+                const b = parseBrazilianNumber(inputB.value);
+                const c = parseBrazilianNumber(inputC.value);
+
+                if (!isNaN(a) && !isNaN(b) && !isNaN(c) && a !== 0) {
+                    const result = (b * c) / a;
+                    // Limita a 6 casas decimais e remove zeros desnecessários
+                    let formattedResult = +result.toFixed(6);
+                    // Troca ponto por vírgula no resultado final
+                    formattedResult = formattedResult.toString().replace('.', ',');
+                    
+                    // Adiciona os pontos de milhar no resultado
+                    let resultParts = formattedResult.split(',');
+                    resultParts[0] = resultParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    
+                    inputX.value = resultParts.join(',');
+                    inputX.classList.add('has-value');
+                } else {
+                    inputX.value = '';
+                    inputX.classList.remove('has-value');
+                }
+            }
+
+            [inputA, inputB, inputC].forEach(input => {
+                input.addEventListener('input', applyMask);
+            });
+        });
+    </script>
+</body>
+</html>
