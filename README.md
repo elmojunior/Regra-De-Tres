@@ -12,10 +12,17 @@ Uma calculadora web moderna, rápida e responsiva para resolver problemas de **R
 
 ## 💻 Como Usar
 
+### Uso Online e Instalação (Recomendado)
+Você pode acessar e instalar a calculadora diretamente no seu celular ou computador como um aplicativo nativo (PWA):
+1. Acesse: [https://elmojunior.github.io/Regra-De-Tres/regradetres.html](https://elmojunior.github.io/Regra-De-Tres/regradetres.html)
+2. Se estiver usando o Google Chrome (ou outro navegador compatível com PWA), aceite a sugestão ou vá no menu e clique em **Instalar Aplicativo**.
+3. Uma vez instalado, o app aparecerá na sua bandeja de aplicativos e funcionará de maneira 100% offline.
+
+### Uso Local e Offline
+Se preferir, você também pode usar os arquivos da forma tradicional:
 1. Baixe o arquivo `regradetres.html`.
 2. Dê um duplo clique para abri-lo em qualquer navegador moderno (Chrome, Firefox, Safari, Edge).
-3. Preencha os três valores conhecidos da sua regra de três nos campos indicados.
-4. O resultado do valor `X` será calculado instantaneamente de forma automática.
+3. Preencha os três valores conhecidos da sua regra de três nos campos indicados. O resultado do valor `X` será calculado instantaneamente de forma automática.
 
 ## 🛠️ Tecnologias Utilizadas
 
