@@ -1,0 +1,16 @@
+{
+  "name": "Regra de Três Simples",
+  "short_name": "Regra 3",
+  "start_url": "./regradetres.html",
+  "display": "standalone",
+  "background_color": "#e0eafc",
+  "theme_color": "#0066ff",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

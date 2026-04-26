@@ -1,6 +1,8 @@
-const CACHE_NAME = 'regra-tres-v1';
+const CACHE_NAME = 'regra-tres-v2';
 const urlsToCache = [
-  './regradetres.html'
+  './regradetres.html',
+  './manifest.json',
+  './icon.svg'
 ];
 
 self.addEventListener('install', event => {
